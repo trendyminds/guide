@@ -2,7 +2,7 @@
     "name": "trendyminds/guide",
     "description": "A Craft CMS plugin to display a help guide in the control panel",
     "type": "craft-plugin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "craft",
         "cms",
@@ -34,7 +34,7 @@
         }
     },
     "extra": {
-        "name": "User Manual",
+        "name": "Guide",
         "handle": "guide",
         "hasCpSettings": true,
         "hasCpSection": true,

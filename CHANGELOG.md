@@ -1,5 +1,10 @@
 # Release Notes for Guide
 
+## v1.0.1 - 2020-04-20
+### Fixed
+
+- Revise plugin name in Plugins panel
+
 ## v1.0.0 - 2020-04-20
 ### Added
 
