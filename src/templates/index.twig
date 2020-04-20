@@ -1,0 +1,37 @@
+
+{% extends "_layouts/cp" %}
+
+{% do view.registerAssetBundle("trendyminds\\guide\\assetbundles\\guide\\GuideAsset") %}
+
+{% set sectionSelected = (craft.guide.settings.section is defined)
+  ? craft.guide.settings.section
+  : "Homepage" %}
+
+{% set title = craft.guide.name|t %}
+{% set sidebar %}
+  <nav>
+    {% set help = craft.entries.sectionId(sectionSelected).all() %}
+    <ul>
+      {% nav page in help %}
+        {% set active = page.id == craft.app.request.segments|last or loop.first and craft.app.request.segments|last == 'guide' %}
+        <li>
+          <a {% if active %}class="sel"{% endif %}
+            href="{{ url('guide/' ~ page.id) }}">
+            {{page.title}}
+          </a>
+          {% ifchildren %}
+              <ul>
+                  {% children %}
+              </ul>
+          {% endifchildren %}
+          </li>
+      {% endnav %}
+    </ul>
+  </nav>
+{% endset %}
+
+{% set content %}
+  <div id="user-manual">
+    {{ getHelpDocument(sectionSelected)|raw }}
+  </div>
+{% endset %}
