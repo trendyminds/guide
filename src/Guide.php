@@ -1,21 +1,19 @@
 <?php
 
 /**
- * usermanual plugin for Craft CMS 3.x
+ * Guide plugin for Craft CMS 3.x
  *
- * Craft User Manual allows developers (or even content editors) to provide CMS
- * documentation using Craft's built-in sections (singles, channels, or structures)
- * to create a `User Manual` or `Help` section directly in the control panel.
+ * A Craft CMS plugin to display a help guide in the control panel
  *
- * @link      https://twitter.com/erskinerob
- * @copyright Copyright (c) 2018 Rob Erskine
+ * @link      https://trendyminds.com
+ * @copyright Copyright (c) 2020 TrendyMinds
  */
 
-namespace hillholliday\usermanual;
+namespace trendyminds\guide;
 
-use hillholliday\usermanual\variables\UserManualVariable;
-use hillholliday\usermanual\twigextensions\UserManualTwigExtension;
-use hillholliday\usermanual\models\Settings;
+use trendyminds\guide\variables\GuideVariable;
+use trendyminds\guide\twigextensions\GuideTwigExtension;
+use trendyminds\guide\models\Settings;
 
 use Craft;
 use craft\base\Plugin;
@@ -29,20 +27,20 @@ use craft\web\UrlManager;
 use yii\base\Event;
 
 /**
- * Class Usermanual
+ * Class Guide
  *
- * @author    Rob Erskine
- * @package   Usermanual
- * @since     2.0.0
+ * @author    TrendyMinds
+ * @package   Guide
+ * @since     1.0.0
  *
  */
-class UserManual extends Plugin
+class Guide extends Plugin
 {
     // Static Properties
     // =========================================================================
 
     /**
-     * @var UserManual
+     * @var Guide
      */
     public static $plugin;
 
@@ -52,7 +50,7 @@ class UserManual extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '2.0.1';
+    public $schemaVersion = '1.0.0';
 
     // Public Methods
     // =========================================================================
@@ -84,7 +82,7 @@ class UserManual extends Plugin
             function (Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
-                $variable->set('userManual', UserManualVariable::class);
+                $variable->set('guide', GuideVariable::class);
             }
         );
 
@@ -93,15 +91,6 @@ class UserManual extends Plugin
             Plugins::class,
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
             [$this, 'afterInstallPlugin']
-        );
-
-        Craft::info(
-            Craft::t(
-                'usermanual',
-                '{name} plugin loaded',
-                ['name' => $this->name]
-            ),
-            __METHOD__
         );
     }
 
@@ -113,7 +102,7 @@ class UserManual extends Plugin
      */
     public function getName()
     {
-        $pluginName = Craft::t('usermanual', 'User Manual');
+        $pluginName = Craft::t('guide', 'Guide');
         $pluginNameOverride = $this->getSettings()->pluginNameOverride;
 
         return ($pluginNameOverride)
@@ -124,7 +113,7 @@ class UserManual extends Plugin
     public function registerCpUrlRules(RegisterUrlRulesEvent $event)
     {
         $rules = [
-            'usermanual/<userManualPath:([a-zéñåA-Z0-9\-\_\/]+)?>' => ['template' => 'usermanual/index'],
+            'guide/<guidePath:([a-zéñåA-Z0-9\-\_\/]+)?>' => ['template' => 'guide/index'],
         ];
 
         $event->rules = array_merge($event->rules, $rules);
@@ -135,7 +124,7 @@ class UserManual extends Plugin
         $isCpRequest = Craft::$app->getRequest()->isCpRequest;
 
         if ($event->plugin === $this && $isCpRequest) {
-            Craft::$app->controller->redirect(UrlHelper::cpUrl('settings/plugins/usermanual/'))->send();
+            Craft::$app->controller->redirect(UrlHelper::cpUrl('settings/plugins/guide/'))->send();
         }
     }
 
@@ -178,7 +167,7 @@ class UserManual extends Plugin
         $overrides = Craft::$app->getConfig()->getConfigFromFile(strtolower($this->handle));
 
         return Craft::$app->view->renderTemplate(
-            'usermanual/settings',
+            'guide/settings',
             [
                 'settings' => $this->getSettings(),
                 'overrides' => array_keys($overrides),
@@ -194,7 +183,7 @@ class UserManual extends Plugin
     public function getSettings()
     {
         $settings = parent::getSettings();
-        $config = Craft::$app->config->getConfigFromFile('usermanual');
+        $config = Craft::$app->config->getConfigFromFile('guide');
 
         foreach ($settings as $settingName => $settingValue) {
             $settingValueOverride = null;
@@ -222,6 +211,6 @@ class UserManual extends Plugin
 
     private function _addTwigExtensions()
     {
-        Craft::$app->view->twig->addExtension(new UserManualTwigExtension);
+        Craft::$app->view->twig->addExtension(new GuideTwigExtension);
     }
 }
