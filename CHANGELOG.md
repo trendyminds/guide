@@ -2,6 +2,7 @@
 
 ## v1.1.0 - 2020-04-20
 ### Added
+- New icon
 - Disable ability to set template overrides (this makes it easier to avoid making a user manual entry public)
 
 ### Fixed
