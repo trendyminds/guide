@@ -46,4 +46,4 @@ Entries in this section must have associated urls.
 
 ## Thanks
 - **Code**: This is a fork of [Craft User Manual](https://github.com/hillholliday/Craft-User-Manual) by Hill Holliday. The primary changes here are requiring your "Guide" content type to have no front-end accessible URLs.
-- **Icon**: Map by Gregor Cresnar from the Noun Project
+- **Icon**: Compass by Berkah Icon from the Noun Project
