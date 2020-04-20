@@ -82,15 +82,7 @@ class GuideTwigExtension extends Twig_Extension
         if (!$sectionId || !$entry) {
             Craft::$app->controller->redirect(UrlHelper::cpUrl('settings/plugins/guide/'))->send();
         } else {
-            if ($settings->templateOverride) {
-                // Setting the mode also sets the templatepath to the default for that mode
-                Craft::$app->view->setTemplateMode(View::TEMPLATE_MODE_SITE);
-                $template = $settings->templateOverride;
-            } else {
-                $template = 'guide/_body.twig';
-            }
-
-            $output = Craft::$app->view->renderTemplate($template, [
+            $output = Craft::$app->view->renderTemplate('guide/_body.twig', [
                 'entry' => $entry,
             ]);
 

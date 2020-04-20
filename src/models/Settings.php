@@ -32,11 +32,6 @@ class Settings extends Model
     public $pluginNameOverride;
 
     /**
-     * @var string
-     */
-    public $templateOverride;
-
-    /**
      * @var integer
      */
     public $section;
@@ -50,7 +45,7 @@ class Settings extends Model
     public function rules()
     {
         return [
-            [['pluginNameOverride', 'templateOverride'], 'string'],
+            [['pluginNameOverride'], 'string'],
             ['section', 'number'],
         ];
     }

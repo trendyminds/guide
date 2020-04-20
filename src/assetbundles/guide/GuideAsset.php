@@ -9,7 +9,7 @@
  * @copyright Copyright (c) 2020 TrendyMinds
  */
 
-namespace trendymidns\guide\assetbundles\guide;
+namespace trendyminds\guide\assetbundles\guide;
 
 use Craft;
 use craft\web\AssetBundle;

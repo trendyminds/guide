@@ -34,12 +34,6 @@ To install the plugin, follow these instructions.
 ### pluginNameOverride
 Intuitive, human-readable plugin name for the end user.
 
-<a id="config-settings-templateOverride"></a>
-### templateOverride
-For more control over the output, you may optionally override the default template.
-
-Path is relative to ../craft/templates/.
-
 <a id="config-settings-section"></a>
 ### section
 Entries in this section must have associated urls.
