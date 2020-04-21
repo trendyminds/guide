@@ -1,12 +1,12 @@
 # <img src="src/icon.svg" width="20" /> Guide
-## A Craft CMS module to display a help guide in the control panel
+A Craft CMS module to display a help guide in the control panel
 
 <img src="images/guide.png">
 
-### Requirements
+## Requirements
 Guide is built to run on Craft CMS 3.2 and later
 
-### Installation
+## Installation
 1. [Download a zip archive](https://github.com/trendyminds/guide/archive/master.zip), rename the folder to `guidemodule` and add it to your `modules/` folder.
 2. Add the contents of the `app.php` file to your `config/app.php` (or just copy it there if it does not exist)
 ```php
@@ -33,7 +33,7 @@ return [
 composer dump-autoload
 ```
 
-### Configuration
+## Configuration
 
 You may configure both the name of the plugin as well as which content type to use as your "Guide" entries in `src/config/guidemodule.php`.
 
