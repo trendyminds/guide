@@ -1,8 +1,10 @@
 # <img src="src/icon.svg" width="20" /> Guide
 ## A Craft CMS module to display a help guide in the control panel
 
+<img src="images/guide.png">
+
 ### Requirements
-This module requires Craft CMS 3.0.0-RC1 or later.
+Guide is built to run on Craft CMS 3.2 and later
 
 ### Installation
 1. [Download a zip archive](https://github.com/trendyminds/guide/archive/master.zip), rename the folder to `guidemodule` and add it to your `modules/` folder.
