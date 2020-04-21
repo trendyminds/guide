@@ -1,17 +1,9 @@
-# Release Notes for Guide
+# Guide Changelog
 
-## v1.1.0 - 2020-04-20
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## 1.0.0 - 2020-04-20
 ### Added
-- New icon
-- Disable ability to set template overrides (this makes it easier to avoid making a user manual entry public)
-
-### Fixed
-- Correct namespace issue on assetbundle
-
-## v1.0.1 - 2020-04-20
-### Fixed
-- Revise plugin name in Plugins panel
-
-## v1.0.0 - 2020-04-20
-### Added
-- Initial release/fork of [Hill Holliday's Craft User Manual](https://github.com/hillholliday/Craft-User-Manual)
+- Initial release

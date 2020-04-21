@@ -1,37 +1,30 @@
-
 {% extends "_layouts/cp" %}
 
-{% do view.registerAssetBundle("trendyminds\\guide\\assetbundles\\guide\\GuideAsset") %}
+{% do view.registerAssetBundle("modules\\guidemodule\\assetbundles\\guidemodule\\GuideModuleAsset") %}
 
-{% set sectionSelected = (craft.guide.settings.section is defined)
-  ? craft.guide.settings.section
-  : "Homepage" %}
+{% set title = pluginName %}
 
-{% set title = craft.guide.name|t %}
-{% set sidebar %}
+{% block sidebar %}
   <nav>
-    {% set help = craft.entries.sectionId(sectionSelected).all() %}
     <ul>
-      {% nav page in help %}
-        {% set active = page.id == craft.app.request.segments|last or loop.first and craft.app.request.segments|last == 'guide' %}
+      {% nav page in craft.entries.section('userManual').all() %}
         <li>
-          <a {% if active %}class="sel"{% endif %}
-            href="{{ url('guide/' ~ page.id) }}">
-            {{page.title}}
-          </a>
+          <a{% if entry is not null and entry.id == page.id %} class="sel"{% endif %} href="{{url('guide/' ~ page.id)}}">{{page.title}}</a>
+
           {% ifchildren %}
-              <ul>
-                  {% children %}
-              </ul>
+            <ul>
+              {% children %}
+            </ul>
           {% endifchildren %}
-          </li>
+        </li>
       {% endnav %}
     </ul>
   </nav>
-{% endset %}
+{% endblock %}
 
-{% set content %}
-  <div id="guide">
-    {{ getHelpDocument(sectionSelected)|raw }}
-  </div>
-{% endset %}
+{% block content %}
+  {% if entry.body is defined and entry.body %}
+    <h1>{{entry.title}}</h1>
+    {{entry.body}}
+  {% endif %}
+{% endblock %}
