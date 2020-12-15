@@ -68,9 +68,10 @@ class DefaultController extends Controller
 
         // Display the template with the custom variables
         return $this->renderTemplate('guide-module/index', [
-            "pluginName" => Config::getName(),
+			"pluginName" => Config::getName(),
+			"guideSection" => Config::getSection(),
             "entry" => Entry::findOne([
-                'section' => 'userManual',
+                'section' => Config::getSection(),
                 'id' => Craft::$app->request->getSegment(2)
             ])
         ]);

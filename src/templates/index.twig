@@ -7,7 +7,7 @@
 {% block sidebar %}
   <nav>
     <ul>
-      {% nav page in craft.entries.section('userManual').all() %}
+      {% nav page in craft.entries.section(guideSection).all() %}
         <li>
           <a{% if entry is not null and entry.id == page.id %} class="sel"{% endif %} href="{{url('guide/' ~ page.id)}}">{{page.title}}</a>
 
