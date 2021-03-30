@@ -8,34 +8,13 @@
  * @copyright Copyright (c) 2020 TrendyMinds
  */
 
-namespace modules\guidemodule\controllers;
-
-use modules\guidemodule\Config;
+namespace modules\guide\controllers;
 
 use Craft;
 use craft\elements\Entry;
 use craft\web\Controller;
+use modules\guide\Guide;
 
-/**
- * Default Controller
- *
- * Generally speaking, controllers are the middlemen between the front end of
- * the CP/website and your module’s services. They contain action methods which
- * handle individual tasks.
- *
- * A common pattern used throughout Craft involves a controller action gathering
- * post data, saving it on a model, passing the model off to a service, and then
- * responding to the request appropriately depending on the service method’s response.
- *
- * Action methods begin with the prefix “action”, followed by a description of what
- * the method does (for example, actionSaveIngredient()).
- *
- * https://craftcms.com/docs/plugins/controllers
- *
- * @author    TrendyMinds
- * @package   GuideModule
- * @since     1.0.0
- */
 class DefaultController extends Controller
 {
 
@@ -54,7 +33,7 @@ class DefaultController extends Controller
 
     /**
      * Handle a request going to our module's index action URL,
-     * e.g.: actions/guide-module/default
+     * e.g.: actions/guide/default
      *
      * @return mixed
      */
@@ -67,14 +46,14 @@ class DefaultController extends Controller
         $this->requirePermission('canViewGuide');
 
         // Display the template with the custom variables
-        return $this->renderTemplate('guide-module/index', [
-			"pluginName" => Config::getName(),
-			"guideSection" => Config::getSection(),
-            "entry" => Entry::findOne([
-                'section' => Config::getSection(),
-                'id' => Craft::$app->request->getSegment(2)
-            ])
-        ]);
+        return $this->renderTemplate('guide/index', [
+			"pluginName" => Guide::$instance->getSettings()->name,
+			"guideSection" => Guide::$instance->getSettings()->section,
+			"entry" => Entry::findOne([
+				'section' => Guide::$instance->getSettings()->section,
+				'id' => Craft::$app->request->getSegment(2)
+			])
+		]);
     }
 
     /**
@@ -84,20 +63,20 @@ class DefaultController extends Controller
      */
     private function _validateGuide()
     {
-        $section = Craft::$app->sections->getSectionByHandle(Config::getSection());
+        $section = Craft::$app->sections->getSectionByHandle(Guide::$instance->getSettings()->section);
 
         if (!$section) {
-            throw new \Exception("This section does not exist. You must supply the Guide with a valid section handle in config/guidemodule.php.");
+            throw new \Exception("This section does not exist. You must supply the Guide with a valid section handle in config/guide.php.");
         }
 
         $sectionSettings = Craft::$app->getSections()->getSectionSiteSettings($section->id);
 
         if (!$sectionSettings || count($sectionSettings) !== 1) {
-            throw new \Exception("This section does not have any valid settings. You must supply the Guide with a valid section handle in config/guidemodule.php.");
+            throw new \Exception("This section does not have any valid settings. You must supply the Guide with a valid section handle in config/guide.php.");
         }
 
         if ($sectionSettings[0]->hasUrls) {
-            throw new \Exception("The section you use to power the Guide cannot have public URLs. Please ensure your section does not have public URLs or use a different section handle in config/guidemodule.php");
+            throw new \Exception("The section you use to power the Guide cannot have public URLs. Please ensure your section does not have public URLs or use a different section handle in config/guide.php");
         }
 
         return true;

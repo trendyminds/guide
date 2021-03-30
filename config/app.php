@@ -14,9 +14,9 @@
  */
 return [
     'modules' => [
-        'guide-module' => [
-            'class' => \modules\guidemodule\GuideModule::class
+        'guide' => [
+            'class' => \modules\guide\Guide::class
         ],
     ],
-    'bootstrap' => ['guide-module'],
+    'bootstrap' => ['guide'],
 ];

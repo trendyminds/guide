@@ -8,10 +8,7 @@
  * @copyright Copyright (c) 2020 TrendyMinds
  */
 
-namespace modules\guidemodule;
-
-use modules\guidemodule\services\GuideModuleService as GuideModuleServiceService;
-use modules\guidemodule\Config;
+namespace modules\guide;
 
 use Craft;
 use craft\events\RegisterCpNavItemsEvent;
@@ -25,33 +22,10 @@ use craft\services\UserPermissions;
 use yii\base\Event;
 use yii\base\Module;
 
-/**
- * Craft plugins are very much like little applications in and of themselves. We’ve made
- * it as simple as we can, but the training wheels are off. A little prior knowledge is
- * going to be required to write a plugin.
- *
- * For the purposes of the plugin docs, we’re going to assume that you know PHP and SQL,
- * as well as some semi-advanced concepts like object-oriented programming and PHP namespaces.
- *
- * https://craftcms.com/docs/plugins/introduction
- *
- * @author    TrendyMinds
- * @package   GuideModule
- * @since     1.0.0
- *
- * @property  GuideModuleServiceService $guideModuleService
- */
-class GuideModule extends Module
+class Guide extends Module
 {
     // Static Properties
     // =========================================================================
-
-    /**
-     * Static property that is an instance of this module class so that it can be accessed via
-     * GuideModule::$instance
-     *
-     * @var GuideModule
-     */
     public static $instance;
 
     // Public Methods
@@ -62,8 +36,8 @@ class GuideModule extends Module
      */
     public function __construct($id, $parent = null, array $config = [])
     {
-        Craft::setAlias('@modules/guidemodule', $this->getBasePath());
-        $this->controllerNamespace = 'modules\guidemodule\controllers';
+        Craft::setAlias('@modules/guide', $this->getBasePath());
+        $this->controllerNamespace = 'modules\guide\controllers';
 
         // Base template directory
         Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function (RegisterTemplateRootsEvent $e) {
@@ -78,17 +52,6 @@ class GuideModule extends Module
         parent::__construct($id, $parent, $config);
     }
 
-    /**
-     * Set our $instance static property to this class so that it can be accessed via
-     * GuideModule::$instance
-     *
-     * Called after the module class is instantiated; do any one-time initialization
-     * here such as hooks and events.
-     *
-     * If you have a '/vendor/autoload.php' file, it will be loaded for you automatically;
-     * you do not need to load it in your init() method.
-     *
-     */
     public function init()
     {
         parent::init();
@@ -99,8 +62,8 @@ class GuideModule extends Module
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['guide'] = 'guide-module/default/index';
-                $event->rules['guide/<page:\d+>'] = 'guide-module/default/index';
+                $event->rules['guide'] = 'guide/default/index';
+                $event->rules['guide/<page:\d+>'] = 'guide/default/index';
             }
         );
 
@@ -125,11 +88,28 @@ class GuideModule extends Module
                 function(RegisterCpNavItemsEvent $event) {
                     $event->navItems[] = [
                         'url' => 'guide',
-                        'label' => Config::getName(),
-                        'icon' => '@modules/guidemodule/icon-mask.svg'
+                        'label' => $this->getSettings()->name,
+                        'icon' => '@modules/guide/icon-mask.svg'
                     ];
                 }
             );
         }
     }
+
+	/**
+	 * The settings of what the public name and section for powering the Guide should be.
+	 * These can be modified based on your project needs
+	 *
+	 * @return object
+	 */
+	public function getSettings(): object
+	{
+		return (object) [
+			// The public facing name of the plugin in the Craft control panel
+			'name' => 'Guide',
+
+			// The handle of the section that drives the Guide. This section must not have public URLs
+			'section' => 'guide',
+		];
+	}
 }
