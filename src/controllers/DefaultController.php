@@ -17,36 +17,24 @@ use modules\guide\Guide;
 
 class DefaultController extends Controller
 {
+	protected $allowAnonymous = [];
 
-    // Protected Properties
-    // =========================================================================
+	/**
+	 * Handle a request going to our module's index action URL,
+	 * e.g.: actions/guide/default
+	 *
+	 * @return mixed
+	 */
+	public function actionIndex()
+	{
+		// Determine if the guide options are valid
+		$this->_validateGuide();
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
-    protected $allowAnonymous = [];
+		// Can the user view the guide?
+		$this->requirePermission('canViewGuide');
 
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * Handle a request going to our module's index action URL,
-     * e.g.: actions/guide/default
-     *
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        // Determine if the guide options are valid
-        $this->_validateGuide();
-
-        // Can the user view the guide?
-        $this->requirePermission('canViewGuide');
-
-        // Display the template with the custom variables
-        return $this->renderTemplate('guide/index', [
+		// Display the template with the custom variables
+		return $this->renderTemplate('guide/index', [
 			"pluginName" => Guide::$instance->getSettings()->name,
 			"guideSection" => Guide::$instance->getSettings()->section,
 			"entry" => Entry::findOne([
@@ -54,31 +42,31 @@ class DefaultController extends Controller
 				'id' => Craft::$app->request->getSegment(2)
 			])
 		]);
-    }
+	}
 
-    /**
-     * Throws an error if an invalid configuration was supplied for the Guide
-     *
-     * @return void
-     */
-    private function _validateGuide()
-    {
-        $section = Craft::$app->sections->getSectionByHandle(Guide::$instance->getSettings()->section);
+	/**
+	 * Throws an error if an invalid configuration was supplied for the Guide
+	 *
+	 * @return void
+	 */
+	private function _validateGuide()
+	{
+		$section = Craft::$app->sections->getSectionByHandle(Guide::$instance->getSettings()->section);
 
-        if (!$section) {
-            throw new \Exception("This section does not exist. You must supply the Guide with a valid section handle in config/guide.php.");
-        }
+		if (!$section) {
+			throw new \Exception("This section does not exist. You must supply the Guide with a valid section handle in config/guide.php.");
+		}
 
-        $sectionSettings = Craft::$app->getSections()->getSectionSiteSettings($section->id);
+		$sectionSettings = Craft::$app->getSections()->getSectionSiteSettings($section->id);
 
-        if (!$sectionSettings || count($sectionSettings) !== 1) {
-            throw new \Exception("This section does not have any valid settings. You must supply the Guide with a valid section handle in config/guide.php.");
-        }
+		if (!$sectionSettings || count($sectionSettings) !== 1) {
+			throw new \Exception("This section does not have any valid settings. You must supply the Guide with a valid section handle in config/guide.php.");
+		}
 
-        if ($sectionSettings[0]->hasUrls) {
-            throw new \Exception("The section you use to power the Guide cannot have public URLs. Please ensure your section does not have public URLs or use a different section handle in config/guide.php");
-        }
+		if ($sectionSettings[0]->hasUrls) {
+			throw new \Exception("The section you use to power the Guide cannot have public URLs. Please ensure your section does not have public URLs or use a different section handle in config/guide.php");
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

@@ -3,32 +3,50 @@
 {% set title = pluginName %}
 
 {% block sidebar %}
-  <nav>
-    <ul>
-      {% nav page in craft.entries.section(guideSection).all() %}
-        <li>
-          <a{% if entry is not null and entry.id == page.id %} class="sel"{% endif %} href="{{url('guide/' ~ page.id)}}">{{ page.title }}</a>
+	<nav>
+		<ul>
+			{% nav page in craft.entries.section(guideSection).all() %}
+				<li>
+					<a
+						class="{{ entry is not null and entry.id == page.id ? 'sel' }}"
+						href="{{ url('guide/' ~ page.id) }}"
+					>
+							{{ page.title }}
+					</a>
 
-          {% ifchildren %}
-            <ul>
-              {% children %}
-            </ul>
-          {% endifchildren %}
-        </li>
-      {% endnav %}
-    </ul>
-  </nav>
+					{% ifchildren %}
+						<ul>
+							{% children %}
+						</ul>
+					{% endifchildren %}
+				</li>
+			{% endnav %}
+		</ul>
+	</nav>
 {% endblock %}
 
 {% block content %}
-  {% if entry.body is defined and entry.body %}
-    <h1>{{ entry.title }}</h1>
-    {{ entry.body }}
-  {% endif %}
+	<div class="guide-content">
+		<h1>{{ entry.title }}</h1>
+
+		{% if entry.body is defined and entry.body %}
+			{{ entry.body }}
+		{% endif %}
+	</div>
 {% endblock %}
 
 {% css %}
 	.sidebar nav li ul {
-  	display: block;
+		display: block;
+	}
+
+	.guide-content ul {
+		list-style: disc;
+	}
+
+	.guide-content ul,
+	.guide-content ol {
+		margin: 0 0 1rem 1rem;
+		padding: 0 !important;
 	}
 {% endcss %}
