@@ -17,7 +17,7 @@ use modules\guide\Guide;
 
 class DefaultController extends Controller
 {
-	protected $allowAnonymous = [];
+	protected array|bool|int $allowAnonymous = [];
 
 	/**
 	 * Handle a request going to our module's index action URL,

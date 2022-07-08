@@ -67,9 +67,12 @@ class Guide extends Module
 			UserPermissions::EVENT_REGISTER_PERMISSIONS,
 			function(RegisterUserPermissionsEvent $event) {
 				$event->permissions['Guide'] = [
-					'canViewGuide' => [
-						'label' => 'View Guide',
-					],
+					'heading' => 'Guide',
+					'permissions' => [
+						'canViewGuide' => [
+							'label' => 'View Guide',
+						],
+					]
 				];
 			}
 		);

@@ -27,7 +27,9 @@
 
 {% block content %}
 	<div class="guide-content">
-		<h1>{{ entry.title }}</h1>
+		{% if entry.title is defined and entry.title %}
+			<h1>{{ entry.title }}</h1>
+		{% endif %}
 
 		{% if entry.body is defined and entry.body %}
 			{{ entry.body }}
